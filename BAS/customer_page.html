@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Page</title>
+    <style>
+        body {
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            background-image: url(./img/img.jpg);
+            align-items: center;
+        }
+        p{
+            background-color: white;
+            padding: 8px;
+            width: 90%;
+        }
+        h1 {
+            color: #050000;
+            background-color: rgba(250, 235, 215, 0.414);
+            align-items: baseline;
+            display: flexbox;
+            width: 50%;
+        }
+        form {
+            max-width: 400px;
+            margin: 20px 0;
+            background-color: antiquewhite;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+        }
+        input, select {
+            width: 50%;
+            padding: 8px;
+            margin-bottom: 15px;
+        }
+        button {
+            padding: 10px;
+            background-color:burlywood;
+            color:black;
+            border: none;
+            width: 100%;
+            cursor: pointer;
+        }
+        .result {
+            margin-top: 20px;
+        }
+        .book-info {
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            padding: 10px;
+            overflow: auto;
+            background-color: beige;
+        }
+        .book-image {
+            float: left;
+            margin-right: 10px;
+        }
+        .featured-books {
+            margin-top: 30px;
+            background-color: rgba(245, 245, 220, 0.479);
+        }
+        .featured-book {
+            display: inline-block;
+            width: 30%;
+            margin-right: 10px;
+            text-align: center;
+        }
+        .featured-book img {
+            max-width: 50%;
+            height: auto;
+            border: 1px solid #ddd;
+            margin-bottom: 10px;
+        }
+        .notification-option {
+            margin-top: 10px;
+        }
+        #paymentForm {
+            display: none;
+            max-width: 400px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+   <center> <h1 style="color: #f9f7f7;">Welcome, Customer!</h1></center>
+   <center> <form id="searchForm">
+    <label for="searchType">Search by:</label>
+    <select id="searchType" name="searchType">
+        <option value="title">Title</option>
+        <option value="author">Author</option>
+    </select>
+    <label for="searchQuery">Search Query:</label>
+    <input type="text" id="searchQuery" name="searchQuery" required>
+    <button type="button" onclick="searchBooks()">Search</button>
+</form></center>
+    <div id="searchResult" class="result"></div>
+    <div id="paymentForm">
+        <h2 style="color: #ddd;">Payment Method</h2>
+        <label for="paymentMethod" style="color: #ddd;">Select Payment Method:</label>
+        <select id="paymentMethod" name="paymentMethod">
+            <option value="creditCard">Credit Card</option>
+            <option value="debitCard">Debit Card</option>\
+        </select>
+        <label for="cardNumber" style="color: #ddd;">Card Number:</label>
+        <input type="text" id="cardNumber" name="cardNumber" placeholder="1234 5678 9012 3456" required>
+        <label for="expiryDate" style="color: #ddd;">Expiry Date:</label>
+        <input type="text" id="expiryDate" name="expiryDate" placeholder="MM/YYYY" required>
+        <label for="cvv" style="color: #ddd;">CVV:</label>
+        <input type="text" id="cvv" name="cvv" placeholder="123" required>
+        <button type="button" onclick="processPayment()">Submit Payment</button>
+    </div>
+   <center> <div class="featured-books">
+        <center><h2 style="font-size: 40px;"><i>Featured Books</i></h2></center>
+        <div class="featured-book">
+            <img src="./img/AForgeryofRoses.jpg" alt="Featured Book 1">
+            <p>A Forgery of Roses by Jessica S. Olson</p>
+        </div>
+        <div class="featured-book">
+            <img src="./img/AnjaliSachdeva.jpg" alt="Featured Book 2">
+            <p>All the Names they used for God by Anjali Sachdeva</p>
+        </div>
+        <div class="featured-book">
+            <img src="./img/ChamberofSecrets.jpg" alt="Featured Book 3">
+            <p>Harry Potter and the Chamber of Secrets by J. K. Rowling</p>
+        </div>
+        <div class="featured-book">
+            <img src="./img/TheAlchemist.jpg" alt="Featured Book 3">
+            <p>The Alchemist by Paulo Coelho</p>
+        </div>
+        <div class="featured-book">
+            <img src="./img/TheFatedandTheDamned.jpg" alt="Featured Book 3">
+            <p>The Fated and The Damned by Chloe Hodge</p>
+        </div>
+        <div class="featured-book">
+            <img src="./img/TheBlackCompany.jpg" alt="Featured Book 3">
+            <p>The Black Company by Glen Cook</p>
+        </div>
+        <div class="featured-book">
+            <img src="./img/TheBlackWitch.jpg" alt="Featured Book 3">
+            <p>The Black Witch by Laurie Forest</p>
+        </div>
+        <div class="featured-book">
+            <img src="./img/TheBlueUmbrella.jpg" alt="Featured Book 3">
+            <p>The Blue Umbrella by Ruskin Bond</p>
+        </div>
+        <div class="featured-book">
+            <img src="./img/TheGreatGatsby.jpg" alt="Featured Book 3">
+            <p>The Great Gatsby by F. Scott Fitzgerald</p>
+        </div>
+    </div></center>
+    <script>
+        function searchBooks() {
+            const searchType = document.getElementById("searchType").value;
+            const searchQuery = document.getElementById("searchQuery").value;
+            const books = [
+                { title: "A Forgery of Roses", author: "Jessica S. Olson", availability: true, inStock: 5, price: "$40.00", imageUrl: "./AForgeryofRoses.jpg" },
+                { title: "All the Names they used for God", author: "Anjali Sachdeva", availability: false, inStock: 0, price: "$40.00", imageUrl: "./AnjaliSachdeva.jpg" },
+                { title: "Harry Potter and the Chamber of Secrets", author: "J. K. Rowling", availability: true, inStock: 3, price: "$40.00", imageUrl: "./ChamberofSecrets.jpg" },
+                { title: "The Alchemist", author: "Paulo Coelho", availability: false, inStock: 0,price: "$40.00", imageUrl: "./TheAlchemist.jpg" },
+                { title: "The Fated and The Damned", author: "Chloe Hodge", availability: true, inStock: 9, price: "$40.00", imageUrl: "./TheFatedandTheDamned.jpg" },
+                { title: "The Black Company", author: "Glen Cook", availability: false, inStock: 0, price: "$40.00", imageUrl: "./TheBlackCompany.jpg" },
+                { title: "Black Witch", author: "Laurie Forest", availability: true, inStock: 6, price: "$40.00", imageUrl: "./TheBlackWitch.jpg" },
+                { title: "The Blue Umbrella", author: "Ruskin Bond", availability: false, inStock: 0, price: "$40.00", imageUrl: "./TheBlueUmbrella.jpg" },
+                { title: "The Great Gatsby", author: "F. Scott Fitzgerald", availability: true, inStock: 13, price: "$40.00", imageUrl: "./TheGreatGatsby.jpg" },
+            ];
+            const filteredBooks = books.filter(book => {
+                return searchType === "title" ? book.title.toLowerCase().includes(searchQuery.toLowerCase()) :
+                                               book.author.toLowerCase().includes(searchQuery.toLowerCase());
+            });
+            const searchResultElement = document.getElementById("searchResult");
+            searchResultElement.innerHTML = ""; 
+            filteredBooks.forEach(book => {
+                const bookInfo = document.createElement("div");
+                bookInfo.className = "book-info";
+                bookInfo.innerHTML = `<div class="book-image"><img src="${book.imageUrl}" alt="${book.title}" style="max-width: 100px;"></div>
+                                     <strong>Title:</strong> ${book.title}<br>
+                                     <strong>Author:</strong> ${book.author}<br>
+                                     <strong>Availability:</strong> ${book.availability ? "In stock" : "Out of stock"}<br>
+                                     <strong>In Stock:</strong> ${book.inStock}<br>
+                                     <strong>Price:</strong> ${book.price}<br>
+                                     ${book.availability ? `
+                                         <label class="notification-option">
+                                             <input type="checkbox" id="purchaseCheckbox${book.title}" value="${book.title}" onclick="togglePaymentForm('${book.title}')"> Would you like to purchase?
+                                         </label>
+                                     ` : ''}
+                                     ${book.availability ? '' : `
+                                         <label class="notification-option">
+                                             <input type="checkbox" id="notifyCheckbox${book.title}" value="${book.title}"> Would you like to get notification?
+                                         </label>
+                                         <div id="emailInput${book.title}" style="display: none;">
+                                             <label for="email">Email:</label>
+                                             <input type="email" id="email${book.title}">
+                                         </div>
+                                         <button onclick="handleBookAction('${book.title}', '${book.author}', ${book.availability})">Procure</button>
+                                     `}`;
+                searchResultElement.appendChild(bookInfo);
+            });
+        }
+        function handleBookAction(title, author, availability) {
+            if (availability) {
+                const purchaseCheckbox = document.getElementById(`purchaseCheckbox${title}`);
+                const paymentForm = document.getElementById("paymentForm");
+                if (purchaseCheckbox.checked) {
+                    paymentForm.style.display = "block";
+                } else {
+                    alert(`Book "${title}" by ${author} has been procured. Thank you for your purchase!`);
+                }
+            } else {
+                const notifyCheckbox = document.getElementById(`notifyCheckbox${title}`);
+                const emailInput = document.getElementById(`emailInput${title}`);
+                const email = document.getElementById(`email${title}`).value;
+                if (notifyCheckbox.checked) {
+                    console.log(`Email for notification: ${email}`);
+                    alert(`We will notify you when "${title}" by ${author} is available.`);
+                }
+            }
+        }
+        function togglePaymentForm(title) {
+            const paymentForm = document.getElementById("paymentForm");
+            paymentForm.style.display = document.getElementById(`purchaseCheckbox${title}`).checked ? 'block' : 'none';
+        }
+        function processPayment() {
+            const paymentMethod = document.getElementById("paymentMethod").value;
+            alert(`Payment processed successfully using ${paymentMethod}! Thank you for your purchase!`);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: rgba(155, 145, 53, 0.679);   
+        }
+        h1{
+            background-color: black;
+            color: white;
+            display: flexbox;
+        }
+        button{
+            background-color: black;
+            color: white;
+        }
+        h2 {
+            color: #333;
+        }
+        .sales-process {
+            margin-top: 20px;
+        }
+        .inventory-management {
+            margin-top: 20px;
+        }
+        .demand-estimation {
+            margin-top: 20px;
+        }
+        .book-prices {
+            margin-top: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .sales-options {
+            margin-top: 20px;
+        }
+        .isbn-input {
+            margin-top: 20px;
+        }
+        .inventory-options {
+            margin-top: 20px;
+        }
+        .submenu {
+            display: none;
+            padding-left: 20px;
+        }
+        .submenu a {
+            display: block;
+            padding: 5px;
+            cursor: pointer;
+        }
+        .manage-stock {
+            margin-top: 20px;
+            display: none; /* Initially hide the Manage Stock Levels section */
+        }
+    </style>
+</head>
+<body>
+    <center><h1>Welcome, Employee!</h1></center>
+    <div class="sales-process">
+        <h3>Sales Process & Statistics</h3>
+        <div class="isbn-input">
+            <label for="isbn">Enter ISBN Number:</label>
+            <input type="text" id="isbn" name="isbn" placeholder="ISBN Number">
+            <button onclick="processBookByISBN()">OK</button>
+        </div>
+        <div class="sales-options">
+            <button onclick="updateStock()">Update Stock</button>
+            <button onclick="generateSalesReceipt()">Generate Sales Receipt</button>
+            <button onclick="recordSales()">Record Sales</button>
+        </div>
+        <p>Generate sales processes and statistics here.</p>
+    </div>
+    <div class="inventory-management">
+        <h3>Inventory Management</h3>
+        <button onclick="toggleInventorySubMenu()">Access Inventory Management</button>
+        <div class="submenu" id="inventorySubMenu">
+            <a onclick="enterNewBookDetail()">Enter New Book Detail</a>
+            <a onclick="updateInventoryDatabase()">Update Inventory Database</a>
+            <a onclick="updateAvailabilityStatus()">Update Availability Status</a>
+            <a onclick="showManageStock()">Manage Stock Levels</a>
+        </div>
+        <p>Manage inventory here.</p>
+    </div>
+    <div class="manage-stock" id="manageStockSection">
+        <h3>Manage Stock Levels</h3>
+        <label for="stockAction">Select Action:</label>
+        <select id="stockAction">
+            <option value="add">Add Stock</option>
+            <option value="deduct">Deduct Stock</option>
+        </select>
+        <br>
+        <label for="quantity">Enter Quantity:</label>
+        <input type="number" id="quantity" name="quantity" min="1">
+        <br>
+        <button onclick="manageStock()">Manage Stock</button>
+    </div>
+    <div class="demand-estimation">
+        <h3>Demand Estimation</h3>
+        <div class="demand-features">
+            <button onclick="showOutOfStockBooks()">Show Out-of-Stock Books</button>
+        </div>
+        <div class="demand-requests">
+            <h4>Demand Requests</h4>
+            <label for="demandBookTitle">Book Title:</label>
+            <input type="text" id="demandBookTitle" name="demandBookTitle" placeholder="Enter book title">
+            <label for="demandQuantity">Quantity:</label>
+            <input type="number" id="demandQuantity" name="demandQuantity" min="1">
+            <button onclick="submitDemandRequest()">Submit Demand Request</button>
+        </div>
+        <p>Estimate demand here.</p>
+    </div>
+    <div class="book-prices">
+       <center> <h2>Book Prices</h2></center>
+        <table>
+            <tr>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Price</th>
+            </tr>
+            <tr>
+                <td>The Alchemist</td>
+                <td>Paulo Coelho</td>
+                <td>$20.00</td>
+            </tr>
+            <tr>
+                <td>Harry Potter and the Chamber of Secrets</td>
+                <td>J. K. Rowling</td>
+                <td>$25.00</td>
+            </tr>
+            <tr>
+                <td>The Great Gatsby</td>
+                <td>F. Scott Fitzgerald</td>
+                <td>$18.00</td>
+            </tr>
+        </table>
+    </div>
+    <script>
+        function processBookByISBN() {
+            const isbn = document.getElementById("isbn").value;
+            alert(`Book with ISBN ${isbn} processed successfully!`);
+        }
+        function updateStock() {
+            const isbn = document.getElementById("isbn").value;
+            let stockInfo;
+            if (isbn === "123456") {
+                stockInfo = {
+                    bookTitle: "Book 1",
+                    author: "Author A",
+                    action: "increased",
+                    newStockQuantity: 15
+                };
+            } else if (isbn === "789012") {
+                stockInfo = {
+                    bookTitle: "Book 2",
+                    author: "Author B",
+                    action: "decreased",
+                    newStockQuantity: 8
+                };
+            } else {
+                alert(`ISBN ${isbn} not recognized.`);
+                return;
+            }
+            alert(`Stock for "${stockInfo.bookTitle}" by ${stockInfo.author} ${stockInfo.action} successfully. New stock quantity: ${stockInfo.newStockQuantity}`);
+        }
+        function generateSalesReceipt() {
+            const salesReceiptInfo = {
+                customerName: "John Doe",
+                totalAmount: "$50.00",
+                purchasedBooks: [
+                    { title: "Book 1", quantity: 2, price: "$20.00" },
+                    { title: "Book 2", quantity: 1, price: "$25.00" }
+                ]
+            };
+            alert(`Sales receipt generated successfully for ${salesReceiptInfo.customerName}. Total amount: ${salesReceiptInfo.totalAmount}\n\nPurchased Books:\n${getPurchasedBooksText(salesReceiptInfo.purchasedBooks)}`);
+        }
+        function recordSales() {
+            const recordedSalesInfo = {
+                customerName: "Jane Smith",
+                totalAmount: "$30.00",
+                purchasedBooks: [
+                    { title: "Another Book", quantity: 1, price: "$18.00" }
+                ]
+            };
+            alert(`Sales recorded successfully for ${recordedSalesInfo.customerName}. Total amount: ${recordedSalesInfo.totalAmount}\n\nPurchased Books:\n${getPurchasedBooksText(recordedSalesInfo.purchasedBooks)}`);
+        }
+        function toggleInventorySubMenu() {
+            const submenu = document.getElementById("inventorySubMenu");
+            submenu.style.display = (submenu.style.display === "none") ? "block" : "none";
+        }
+        function enterNewBookDetail() {
+        const title = prompt("Enter book title:");
+        const author = prompt("Enter author:");
+        const price = prompt("Enter price:");
+        alert(`New book details entered successfully:\nTitle: ${title}\nAuthor: ${author}\nPrice: ${price}`);
+    }
+        function updateInventoryDatabase() {
+            alert("Successfully Updated the Inventory Database");
+        }
+        function updateAvailabilityStatus() {
+            alert("Updating availability status. Placeholder for actual functionality.");
+        }
+        function manageStockLevels() {
+            alert("Managing stock levels. Placeholder for actual functionality.");
+        }
+        function getPurchasedBooksText(purchasedBooks) {
+            return purchasedBooks.map(book => `${book.title} - Quantity: ${book.quantity}, Price: ${book.price}`).join('\n');
+        }
+        function showManageStock() {
+            document.getElementById("manageStockSection").style.display = "block";
+        }
+        function manageStock() {
+            const stockAction = document.getElementById("stockAction").value;
+            const quantity = document.getElementById("quantity").value;
+            alert(`Stock successfully ${stockAction === 'add' ? 'added' : 'deducted'} by ${quantity} units.`);
+        }
+        function showOutOfStockBooks() {
+            alert("List of out-of-stock books:\nBook 3\nBook 4");
+        }
+        function submitDemandRequest() {
+            const demandBookTitle = document.getElementById("demandBookTitle").value;
+            const demandQuantity = document.getElementById("demandQuantity").value;
+            alert(`Demand request submitted for ${demandQuantity} copies of "${demandBookTitle}".`);
+        }
+    </script>
+</body>
+</html>
